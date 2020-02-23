@@ -1,0 +1,36 @@
+stages:
+- build
+- deploy
+
+build:
+  only:
+    - master
+  stage: build
+  image: node:12
+  artifacts:
+    paths:
+    - ./dist
+    - ./node_modules
+    expire_in: 1 month
+  script:
+  - npm install
+  - npm run lint
+  - npm run test
+  - npm run build
+  - rm -rf node_modules
+  - npm install --production
+
+deploy:
+  only:
+    - master
+  stage: deploy
+  image: python:3-alpine
+  script:
+  - apk-add zip
+  - pip install awscli
+  - zip -r app.zip ./dist ./node_modules
+  - aws s3 cp app.zip s3://${AWS_APP_BUCKET}/app.zip
+  - aws lambda update-function-code --function-name read --s3-bucket ${AWS_APP_BUCKET} --s3-key app.zip
+  - aws lambda update-function-code --function-name transform --s3-bucket ${AWS_APP_BUCKET} --s3-key app.zip
+
+  

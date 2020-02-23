@@ -10,6 +10,7 @@ export interface Vars {
   AWS_ENDPOINT: string;
   AWS_QUEUE_URL: string;
   AWS_BUCKET: string;
+  AWS_DEFAULT_REGION: string;
 }
 
 /**
@@ -30,6 +31,7 @@ function validateVars(vars: Vars) {
     notEqual(vars.AWS_ENDPOINT, undefined);
     notEqual(vars.AWS_QUEUE_URL, undefined);
     notEqual(vars.AWS_BUCKET, undefined);
+    notEqual(vars.AWS_DEFAULT_REGION, undefined);
   }
 }
 

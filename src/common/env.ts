@@ -27,8 +27,6 @@ function validateVars(vars: Vars) {
   if (isInvalid(vars, vars.ENVIRONMENT)) throw new Error(`invalid environment: ${vars.ENVIRONMENT}`);
 
   if (vars.ENVIRONMENT === Environment.STAGING) {
-    notEqual(vars.AWS_QUEUE_URL, undefined);
-    notEqual(vars.AWS_BUCKET, undefined);
     notEqual(vars.AWS_DEFAULT_REGION, undefined);
   }
 }

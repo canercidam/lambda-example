@@ -26,7 +26,7 @@ deploy:
   stage: deploy
   image: python:3-alpine
   script:
-  - apk-add zip
+  - apk add zip
   - pip install awscli
   - zip -r app.zip ./dist ./node_modules
   - aws s3 cp app.zip s3://${AWS_APP_BUCKET}/app.zip

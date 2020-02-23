@@ -11,7 +11,7 @@ function initStorage<T>(): Storage<T> {
 
   if (vars.ENVIRONMENT === Environment.STAGING) {
     AWS.config.update({ region: vars.AWS_DEFAULT_REGION });
-    return new CloudStorage(getEndpoint('s3'), vars.AWS_QUEUE_URL);
+    return new CloudStorage(getEndpoint('s3'), vars.AWS_BUCKET);
   }
 
   return new StubStorage<T>();

@@ -1,8 +1,8 @@
 import SQS from 'aws-sdk/clients/sqs';
 import { Queue } from '../Queue';
 import {
-  ServiceResponse, success, failure, ErrorCode,
-} from '../../common/response';
+  ServiceResponse, ok, internalErr,
+} from '../../common/status';
 import { awsErr } from '../../common/log';
 
 export class CloudQueue<T> implements Queue<T> {
@@ -20,9 +20,9 @@ export class CloudQueue<T> implements Queue<T> {
 
     const response = result.$response;
     if (response.error) {
-      return failure(ErrorCode.FAILED_TO_SEND_MESSAGE, awsErr(response.error));
+      return internalErr(awsErr(response.error));
     }
 
-    return success();
+    return ok();
   }
 }

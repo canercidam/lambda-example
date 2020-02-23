@@ -1,7 +1,6 @@
 import { createHash } from 'crypto';
 import { expect } from 'chai';
 import { handler } from '../src/services/transform';
-import { Status } from '../src/common/response';
 import { Data } from '../src/services/data';
 import { getStorage } from '../src/storage/init';
 
@@ -16,7 +15,7 @@ const testId = createHash('md5').update('some_string').digest('hex');
 describe('transform service tests', () => {
   it('should transform and put enqueued messages', async () => {
     const result = await handler({ Records: [{ body: testMessage }] }, { awsRequestId: testId });
-    expect(result.status).to.equal(Status.Success, result.errorCode);
+    expect(result).to.equal(true);
 
     const storage = getStorage();
     const data = await storage.get(testId);

@@ -1,4 +1,4 @@
-import { ServiceResponse, success } from '../../common/response';
+import { ServiceResponse, ok } from '../../common/status';
 import { Storage } from '../Storage';
 
 export class StubStorage<T> implements Storage<T> {
@@ -6,7 +6,7 @@ export class StubStorage<T> implements Storage<T> {
 
   async put(key: string, data: T): Promise<ServiceResponse> {
     this.object[key] = data;
-    return success();
+    return ok();
   }
 
   async get(key: string): Promise<T> {

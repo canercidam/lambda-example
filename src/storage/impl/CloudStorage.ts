@@ -1,8 +1,8 @@
 import S3, { Body } from 'aws-sdk/clients/s3';
 import { Storage } from '../Storage';
 import {
-  ServiceResponse, success, failure, ErrorCode,
-} from '../../common/response';
+  ServiceResponse, internalErr, ok,
+} from '../../common/status';
 import { awsErr } from '../../common/log';
 
 export class CloudStorage implements Storage<string> {
@@ -21,10 +21,10 @@ export class CloudStorage implements Storage<string> {
 
     const response = result.$response;
     if (response.error) {
-      return failure(ErrorCode.FAILED_TO_PUT_DATA, awsErr(response.error));
+      return internalErr(awsErr(response.error));
     }
 
-    return success();
+    return ok();
   }
 
   async get(key: string): Promise<Body> {

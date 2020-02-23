@@ -9,7 +9,7 @@ interface Event {
 }
 
 export async function handler(event: Event, context: Context): Promise<ServiceResponse> {
-  const storage = getStorage<string>();
+  const storage = getStorage();
 
   let allMsgs = '';
 

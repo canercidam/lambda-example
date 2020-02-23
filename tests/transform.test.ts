@@ -18,7 +18,7 @@ describe('transform service tests', () => {
     const result = await handler({ Records: [{ body: testMessage }] }, { awsRequestId: testId });
     expect(result.status).to.equal(Status.Success, result.errorCode);
 
-    const storage = getStorage<string>();
+    const storage = getStorage();
     const data = await storage.get(testId);
     const dataStr = data.toString();
     expect(dataStr).to.include(testMessageObj.message);

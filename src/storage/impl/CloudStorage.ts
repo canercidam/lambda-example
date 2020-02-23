@@ -1,22 +1,22 @@
-import S3 from 'aws-sdk/clients/s3';
+import S3, { Body } from 'aws-sdk/clients/s3';
 import { Storage } from '../Storage';
 import {
   ServiceResponse, success, failure, ErrorCode,
 } from '../../common/response';
 import { awsErr } from '../../common/log';
 
-export class CloudStorage<T> implements Storage<T> {
+export class CloudStorage implements Storage<string> {
   private client: S3;
 
   constructor(endpoint: string, private bucket: string) {
     this.client = new S3({ endpoint });
   }
 
-  async put(key: string, data: T): Promise<ServiceResponse> {
+  async put(key: string, data: string): Promise<ServiceResponse> {
     const result = await this.client.putObject({
       Bucket: this.bucket,
       Key: key,
-      Body: JSON.stringify(data),
+      Body: data,
     }).promise();
 
     const response = result.$response;
@@ -27,7 +27,7 @@ export class CloudStorage<T> implements Storage<T> {
     return success();
   }
 
-  async get(key: string): Promise<any> {
+  async get(key: string): Promise<Body> {
     const result = await this.client.getObject({
       Bucket: this.bucket,
       Key: key,
@@ -38,6 +38,6 @@ export class CloudStorage<T> implements Storage<T> {
       throw new Error(awsErr(response.error));
     }
 
-    return Promise.resolve(result.Body);
+    return Promise.resolve(result.Body || '');
   }
 }

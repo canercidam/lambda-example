@@ -6,7 +6,7 @@ import { CloudStorage } from './impl/CloudStorage';
 
 let queue: any;
 
-function initStorage<T>(): Storage<T> {
+function initStorage(): Storage<string> {
   const vars = getEnv();
 
   if (vars.ENVIRONMENT === Environment.STAGING) {
@@ -14,10 +14,10 @@ function initStorage<T>(): Storage<T> {
     return new CloudStorage(getEndpoint('s3'), vars.AWS_BUCKET);
   }
 
-  return new StubStorage<T>();
+  return new StubStorage<string>();
 }
 
-export function getStorage<T>(): Storage<T> {
-  if (queue === undefined) queue = initStorage<T>();
+export function getStorage(): Storage<string> {
+  if (queue === undefined) queue = initStorage();
   return queue;
 }

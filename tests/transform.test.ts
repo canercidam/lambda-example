@@ -20,7 +20,8 @@ describe('transform service tests', () => {
 
     const storage = getStorage<string>();
     const data = await storage.get(testId);
-    expect(data).to.include(testMessageObj.message);
-    expect(data).to.include(testMessageObj.time);
+    const dataStr = data.toString();
+    expect(dataStr).to.include(testMessageObj.message);
+    expect(dataStr).to.include(testMessageObj.time);
   });
 });

@@ -12,6 +12,11 @@ export class CloudStorage implements Storage<string> {
     this.client = new S3({ endpoint });
   }
 
+  /**
+   * Puts data to bucket and returns a response.
+   * @param key - object key
+   * @param data - object data
+   */
   async put(key: string, data: string): Promise<ServiceResponse> {
     const result = await this.client.putObject({
       Bucket: this.bucket,
@@ -27,6 +32,10 @@ export class CloudStorage implements Storage<string> {
     return ok();
   }
 
+  /**
+   * Gets object by key from bucket. Throws if fails.
+   * @param key - object key
+   */
   async get(key: string): Promise<Body> {
     const result = await this.client.getObject({
       Bucket: this.bucket,

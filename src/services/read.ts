@@ -8,6 +8,11 @@ interface Event {
   body?: string;
 }
 
+/**
+ * Reads HTTP request body and enqueues it as a message.
+ * @param event - lambda event
+ * @param context - lambda context
+ */
 export async function handler(event: Event, context: Context): Promise<ServiceResponse> {
   if (event.body === undefined) return badRequest(ErrorCode.EMPTY_BODY);
 

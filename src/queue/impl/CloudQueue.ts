@@ -12,6 +12,10 @@ export class CloudQueue<T> implements Queue<T> {
     this.client = new SQS({ endpoint });
   }
 
+  /**
+   * Enqueues given data and returns a response.
+   * @param data - data to stringify and enqueue
+   */
   async enqueue(data: T): Promise<ServiceResponse> {
     const result = await this.client.sendMessage({
       QueueUrl: this.queueURL,

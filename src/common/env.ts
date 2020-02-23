@@ -33,6 +33,9 @@ function validateVars(vars: Vars) {
 
 let variables: any;
 
+/**
+ * Returns environment variables after validating.
+ */
 export function getEnv(): Vars {
   if (!variables) {
     validateVars(process.env as any as Vars);
@@ -42,6 +45,10 @@ export function getEnv(): Vars {
   return variables as Vars;
 }
 
+/**
+ * Constructs endpoint URL.
+ * @param service - AWS service to use
+ */
 export function getEndpoint(service: string): string {
   if (variables === undefined) throw new Error('cannot get endpoint - vars not initialized');
   return `https://${service}.${getEnv().AWS_DEFAULT_REGION}.amazonaws.com`;

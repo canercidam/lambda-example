@@ -6,6 +6,11 @@ interface Event {
   Records: { body: string }[];
 }
 
+/**
+ * Reads messages and writes them as single object to bucket.
+ * @param event - lambda event
+ * @param context - lambda context
+ */
 export async function handler(event: Event, context: Context): Promise<boolean> {
   const storage = getStorage();
 

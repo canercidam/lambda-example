@@ -1,7 +1,7 @@
 import AWS from 'aws-sdk';
 import { Queue } from './Queue';
 import { StubQueue } from './impl/StubQueue';
-import { Environment, getEnv } from '../common/env';
+import { Environment, getEnv, getEndpoint } from '../common/env';
 import { CloudQueue } from './impl/CloudQueue';
 
 let queue: any;
@@ -11,7 +11,7 @@ function initQueue<T>(): Queue<T> {
 
   if (vars.ENVIRONMENT === Environment.STAGING) {
     AWS.config.update({ region: vars.AWS_DEFAULT_REGION });
-    return new CloudQueue(vars.AWS_ENDPOINT, vars.AWS_QUEUE_URL);
+    return new CloudQueue(getEndpoint('sqs'), vars.AWS_QUEUE_URL);
   }
 
   return new StubQueue<T>();

@@ -7,7 +7,6 @@ export enum Environment {
 
 export interface Vars {
   ENVIRONMENT: Environment;
-  AWS_ENDPOINT: string;
   AWS_QUEUE_URL: string;
   AWS_BUCKET: string;
   AWS_DEFAULT_REGION: string;
@@ -28,7 +27,6 @@ function validateVars(vars: Vars) {
   if (isInvalid(vars, vars.ENVIRONMENT)) throw new Error(`invalid environment: ${vars.ENVIRONMENT}`);
 
   if (vars.ENVIRONMENT === Environment.STAGING) {
-    notEqual(vars.AWS_ENDPOINT, undefined);
     notEqual(vars.AWS_QUEUE_URL, undefined);
     notEqual(vars.AWS_BUCKET, undefined);
     notEqual(vars.AWS_DEFAULT_REGION, undefined);
@@ -44,4 +42,9 @@ export function getEnv(): Vars {
   }
 
   return variables as Vars;
+}
+
+export function getEndpoint(service: string): string {
+  if (variables === undefined) throw new Error('cannot get endpoint - vars not initialized');
+  return `https://${service}.${getEnv().AWS_DEFAULT_REGION}.amazonaws.com`;
 }
